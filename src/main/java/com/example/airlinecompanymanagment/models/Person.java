@@ -1,6 +1,7 @@
 package com.example.airlinecompanymanagment.models;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 public class Person {
 
@@ -11,7 +12,7 @@ public class Person {
     private int tel;
     private String email;
     private Date birthDate;
-    private int idDep;
+    private int idDep; //ID DEPARTMENT
     private int salaire;
 
 

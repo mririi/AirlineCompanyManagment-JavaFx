@@ -9,4 +9,8 @@ module com.example.airlinecompanymanagment {
 
     opens com.example.airlinecompanymanagment to javafx.fxml;
     exports com.example.airlinecompanymanagment;
+    exports com.example.airlinecompanymanagment.controllers;
+    exports com.example.airlinecompanymanagment.models;
+    opens com.example.airlinecompanymanagment.models to javafx.fxml;
+    opens com.example.airlinecompanymanagment.controllers to javafx.fxml;
 }

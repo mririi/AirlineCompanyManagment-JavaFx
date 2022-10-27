@@ -1,0 +1,14 @@
+.main{
+    -fx-background-color: #212121;
+}
+.sidebar{
+    -fx-background-color: #323232;
+    -fx-border-color:#14FFEC;
+}
+.btn{
+    -fx-background-color: #0D7377;
+    -fx-border-color:#14FFEC;
+}
+.btn:focused{
+    -fx-background-color: #212121;
+}
