@@ -8,12 +8,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="466.0" styleClass="main" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airlinecompanymanagment.DashController">
    <left>
       <VBox fx:id="sidebar" alignment="TOP_CENTER" prefHeight="386.0" prefWidth="122.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="homebtn" mnemonicParsing="false" onAction="#loadHomeView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Home" textFill="WHITE" />
+            <Button fx:id="airplanebtn" layoutX="11.0" layoutY="49.0" mnemonicParsing="false" onAction="#loadAirplaneView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Airplane" textFill="WHITE" />
             <Button fx:id="airportbtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAirportView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Airport" textFill="WHITE" />
             <Button fx:id="flightbtn" layoutX="10.0" layoutY="48.0" mnemonicParsing="false" onAction="#loadFlightView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Flights" textFill="WHITE" />
             <Button fx:id="ticketbtn" layoutX="10.0" layoutY="87.0" mnemonicParsing="false" onAction="#loadTicketView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Tickets" textFill="WHITE" />
@@ -22,7 +22,7 @@
             <Button fx:id="departmentbtn" layoutX="10.0" layoutY="202.0" mnemonicParsing="false" onAction="#loadDepartmentView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Department" textFill="WHITE" />
             <Button fx:id="closebtn" contentDisplay="TOP" layoutX="11.0" layoutY="241.0" mnemonicParsing="false" onAction="#onClose" prefHeight="38.0" prefWidth="88.0" style="-fx-border-radius: 0; -fx-background-color: #722f37;" text="Exit" textFill="WHITE">
                <VBox.margin>
-                  <Insets top="26.0" />
+                  <Insets top="6.0" />
                </VBox.margin>
             </Button>
          </children>

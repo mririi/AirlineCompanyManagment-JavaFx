@@ -12,7 +12,11 @@ public class Airport {
         this.city = city;
         this.state = state;
     }
-
+    public Airport(String name, String city, String state) {
+        this.name = name;
+        this.city = city;
+        this.state = state;
+    }
     public int getIdA() {
         return idA;
     }

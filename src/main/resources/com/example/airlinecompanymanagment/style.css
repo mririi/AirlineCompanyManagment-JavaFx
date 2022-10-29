@@ -12,3 +12,6 @@
 .btn:focused{
     -fx-background-color: #212121;
 }
+.statsPane{
+    -fx-border-radius: 15;
+}

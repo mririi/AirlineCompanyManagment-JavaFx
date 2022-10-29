@@ -60,6 +60,10 @@ public class DashController {
         loadFXML("Home");
     }
     @FXML
+    void loadAirplaneView(ActionEvent event) {
+        loadFXML("Airplane");
+    }
+    @FXML
     void loadAirportView(ActionEvent event) {
         loadFXML("Airport");
     }
