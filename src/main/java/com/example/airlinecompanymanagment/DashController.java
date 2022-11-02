@@ -55,11 +55,7 @@ public class DashController {
             Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    @FXML
-    private void loadHomeView(ActionEvent e) {
-        loadFXML("Home");
-    }
-    @FXML
+   @FXML
     void loadAirplaneView(ActionEvent event) {
         loadFXML("Airplane");
     }
@@ -69,27 +65,27 @@ public class DashController {
     }
     @FXML
     void loadClientView(ActionEvent event) {
-
+        loadFXML("Client");
     }
 
     @FXML
     void loadDepartmentView(ActionEvent event) {
-
+        loadFXML("Department");
     }
 
     @FXML
     void loadEmployeesView(ActionEvent event) {
-
+        loadFXML("Employees");
     }
 
     @FXML
     void loadFlightView(ActionEvent event) {
-
+        loadFXML("Flight");
     }
 
     @FXML
     void loadTicketView(ActionEvent event) {
-
+        loadFXML("Ticket");
     }
 
     public void onClose(ActionEvent actionEvent) {

@@ -7,14 +7,16 @@ public class Flight {
     private Date dateDepart;
     private Date dateArrival;
     private String destination;
-    private int idA; //ID AEROPORT
+    private int idAirport;
+    private int idAirplane;
 
-    public Flight(int idF, Date dateDepart, Date dateArrival, String destination, int idA) {
+    public Flight(int idF, Date dateDepart, Date dateArrival, String destination, int idAirport, int idAirplane) {
         this.idF = idF;
         this.dateDepart = dateDepart;
         this.dateArrival = dateArrival;
         this.destination = destination;
-        this.idA = idA;
+        this.idAirport = idAirport;
+        this.idAirplane = idAirplane;
     }
 
     public int getIdF() {
@@ -49,22 +51,19 @@ public class Flight {
         this.destination = destination;
     }
 
-    public int getIdA() {
-        return idA;
+    public int getIdAirport() {
+        return idAirport;
     }
 
-    public void setIdA(int idA) {
-        this.idA = idA;
+    public void setIdAirport(int idAirport) {
+        this.idAirport = idAirport;
     }
 
-    @Override
-    public String toString() {
-        return "Flight{" +
-                "idF=" + idF +
-                ", dateDepart=" + dateDepart +
-                ", dateArrival=" + dateArrival +
-                ", destination='" + destination + '\'' +
-                ", idA=" + idA +
-                '}';
+    public int getIdAirplane() {
+        return idAirplane;
+    }
+
+    public void setIdAirplane(int idAirplane) {
+        this.idAirplane = idAirplane;
     }
 }

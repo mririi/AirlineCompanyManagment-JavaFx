@@ -115,8 +115,9 @@ public class AirportController implements Initializable {
             int idA;
             idA = tab.getSelectionModel().getSelectedItem().getIdA();
             tab.getItems().remove(tab.getSelectionModel().getSelectedItem());
-            PreparedStatement x = (PreparedStatement) conn.prepareStatement("delete from airport where idA='" + idA + "'");
+            PreparedStatement x = (PreparedStatement) conn.prepareStatement("delete from airport where idA=" + idA);
             x.execute();
+            nbA.setText(String.valueOf(list.size()));
         }}
         @FXML
         void onModify(ActionEvent event) throws SQLException {
@@ -135,7 +136,7 @@ public class AirportController implements Initializable {
                 list.clear();
                 ResultSet rs = conn.createStatement().executeQuery("select * from airport");
                 while (rs.next()) {
-                    list.add(new Airport(rs.getString("name"), rs.getString("city"), rs.getString("state")));
+                    list.add(new Airport(rs.getInt("idA"),rs.getString("name"), rs.getString("city"), rs.getString("state")));
                 }
                 namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
                 citycol.setCellValueFactory(new PropertyValueFactory<>("city"));
@@ -160,7 +161,7 @@ public class AirportController implements Initializable {
                 throw new RuntimeException(e);
             }
             try {
-                list.add(new Airport(rs.getInt("idA"), rs.getString("name"), rs.getString("city"), rs.getString("state")));
+                list.add(new Airport(rs.getInt("idA"),rs.getString("name"), rs.getString("city"), rs.getString("state")));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

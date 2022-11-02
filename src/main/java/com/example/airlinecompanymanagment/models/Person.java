@@ -1,7 +1,7 @@
 package com.example.airlinecompanymanagment.models;
 
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Person {
 
@@ -13,9 +13,9 @@ public class Person {
     private String email;
     private Date birthDate;
     private int idDep; //ID DEPARTMENT
-    private int salaire;
+    private int salary;
 
-
+    // Clients
     public Person(int idP, String lastName, String firstName, String address, int tel, String email, Date birthDate) {
         this.idP = idP;
         this.lastName = lastName;
@@ -26,7 +26,8 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    public Person(int idP, String lastName, String firstName, String address, int tel, String email, Date birthDate, int idDep, int salaire) {
+    //Employees
+    public Person(int idP, String lastName, String firstName, String address, int tel, String email, Date birthDate, int idDep, int salary) {
         this.idP = idP;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -35,7 +36,15 @@ public class Person {
         this.email = email;
         this.birthDate = birthDate;
         this.idDep = idDep;
-        this.salaire = salaire;
+        this.salary = salary;
+    }
+    public Person(String lastName, String firstName, String address, int tel, String email, Date birthDate) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.address = address;
+        this.tel = tel;
+        this.email = email;
+        this.birthDate = birthDate;
     }
 
     public int getIdP() {
@@ -102,11 +111,11 @@ public class Person {
         this.idDep = idDep;
     }
 
-    public int getSalaire() {
-        return salaire;
+    public int getSalary() {
+        return salary;
     }
 
-    public void setSalaire(int salaire) {
-        this.salaire = salaire;
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 }

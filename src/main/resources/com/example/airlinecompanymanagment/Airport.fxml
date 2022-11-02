@@ -24,7 +24,7 @@
       <Button fx:id="addbtn" layoutX="53.0" layoutY="104.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Add" textFill="WHITE" />
       <Button fx:id="deletebtn" layoutX="235.0" layoutY="104.0" mnemonicParsing="false" onAction="#onDelete" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #722f37;" styleClass="btn" text="Delete" textFill="WHITE" />
       <Button fx:id="modifybtn" layoutX="145.0" layoutY="104.0" mnemonicParsing="false" onAction="#onModify" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Modify" textFill="WHITE" />
-      <Pane layoutX="380.0" layoutY="22.0" prefHeight="108.0" prefWidth="168.0" style="-fx-background-color: #0D7377;">
+      <Pane layoutX="380.0" layoutY="22.0" prefHeight="108.0" prefWidth="168.0" style="-fx-background-color: #0D7377;" styleClass="statsPane">
          <children>
             <Text fx:id="nbA" fill="WHITE" layoutX="70.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" wrappingWidth="33.336669921875">
                <font>

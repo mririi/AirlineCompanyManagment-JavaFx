@@ -12,7 +12,6 @@
    <left>
       <VBox fx:id="sidebar" alignment="TOP_CENTER" prefHeight="386.0" prefWidth="122.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="homebtn" mnemonicParsing="false" onAction="#loadHomeView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Home" textFill="WHITE" />
             <Button fx:id="airplanebtn" layoutX="11.0" layoutY="49.0" mnemonicParsing="false" onAction="#loadAirplaneView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Airplane" textFill="WHITE" />
             <Button fx:id="airportbtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAirportView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Airport" textFill="WHITE" />
             <Button fx:id="flightbtn" layoutX="10.0" layoutY="48.0" mnemonicParsing="false" onAction="#loadFlightView" prefHeight="38.0" prefWidth="122.0" style="-fx-border-radius: 0;" styleClass="btn" text="Flights" textFill="WHITE" />
