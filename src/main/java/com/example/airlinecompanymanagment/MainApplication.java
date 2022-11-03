@@ -13,7 +13,7 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Dash.fxml"));
         stage.setTitle("Dashboard");
-        Scene scene = new Scene(root,900,450);
+        Scene scene = new Scene(root,1020,400);
         stage.setResizable(false);
         //stage.initStyle(StageStyle.UNDECORATED);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());

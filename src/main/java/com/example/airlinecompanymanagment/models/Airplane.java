@@ -10,7 +10,10 @@ public class Airplane {
         this.name = name;
         this.status = status;
     }
-
+    public Airplane(String name, int status) {
+        this.name = name;
+        this.status = status;
+    }
     public int getIdAirplane() {
         return idAirplane;
     }

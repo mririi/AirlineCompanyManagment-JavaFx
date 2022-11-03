@@ -13,7 +13,7 @@ public class Person {
     private String email;
     private Date birthDate;
     private int idDep; //ID DEPARTMENT
-    private int salary;
+    private double salary;
 
     // Clients
     public Person(int idP, String lastName, String firstName, String address, int tel, String email, Date birthDate) {
@@ -27,8 +27,18 @@ public class Person {
     }
 
     //Employees
-    public Person(int idP, String lastName, String firstName, String address, int tel, String email, Date birthDate, int idDep, int salary) {
+    public Person(int idP, String lastName, String firstName, String address, int tel, String email, Date birthDate, double salary,int idDep) {
         this.idP = idP;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.address = address;
+        this.tel = tel;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.idDep = idDep;
+        this.salary = salary;
+    }
+    public Person( String lastName, String firstName, String address, int tel, String email, Date birthDate, double salary,int idDep) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.address = address;
@@ -111,11 +121,11 @@ public class Person {
         this.idDep = idDep;
     }
 
-    public int getSalary() {
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 }

@@ -183,7 +183,7 @@ public class ClientController implements Initializable {
             x.execute();
             clearInput();
             list.clear();
-            ResultSet rs = conn.createStatement().executeQuery("select * from airport");
+            ResultSet rs = conn.createStatement().executeQuery("select * from client");
             while (rs.next()) {
                 list.add(new Person(rs.getInt("idC"),rs.getString("firstname"), rs.getString("lastname"), rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate")));
             }
