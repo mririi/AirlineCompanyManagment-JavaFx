@@ -179,7 +179,7 @@ public class ClientController implements Initializable {
             String tel = phoneInput.getText();
             String email = emailInput.getText();
             String birth = birthInput.getText();
-            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update client set firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"'birthdate='"+birth+"' where idC='" + idC + "' ");
+            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update client set firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"',birthdate='"+birth+"' where idC='" + idC + "' ");
             x.execute();
             clearInput();
             list.clear();
@@ -187,12 +187,12 @@ public class ClientController implements Initializable {
             while (rs.next()) {
                 list.add(new Person(rs.getInt("idC"),rs.getString("firstname"), rs.getString("lastname"), rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate")));
             }
-            firstnamecol.setCellValueFactory(new PropertyValueFactory<>("firstname"));
-            lastnamecol.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+            firstnamecol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+            lastnamecol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
             addresscol.setCellValueFactory(new PropertyValueFactory<>("address"));
             phonecol.setCellValueFactory(new PropertyValueFactory<>("tel"));
             emailcol.setCellValueFactory(new PropertyValueFactory<>("email"));
-            birthcol.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
+            birthcol.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
             tab.setItems(list);
         }
     }

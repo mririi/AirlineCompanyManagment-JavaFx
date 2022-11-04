@@ -207,7 +207,7 @@ public class EmployeesController implements Initializable {
             String birth = birthInput.getText();
             String depart = departmentInput.getText();
             String salary = salaryInput.getText();
-            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update employee set firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"',salary='"+salary+"',idDep='"+depart+"'birthdate="+birth+" where idE='" +idC+"'");
+            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update employee set firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"',salary='"+salary+"',idDep='"+depart+"',birthdate='"+birth+"' where idE='" +idC+"'");
             x.execute();
             clearInput();
             list.clear();
@@ -215,12 +215,12 @@ public class EmployeesController implements Initializable {
             while (rs.next()) {
                 list.add(new Person(rs.getInt("idE"),rs.getString("firstname"), rs.getString("lastname"), rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate"),rs.getDouble("salary"),rs.getInt("idDep")));
             }
-            firstnamecol.setCellValueFactory(new PropertyValueFactory<>("firstname"));
-            lastnamecol.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+            firstnamecol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+            lastnamecol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
             addresscol.setCellValueFactory(new PropertyValueFactory<>("address"));
             phonecol.setCellValueFactory(new PropertyValueFactory<>("tel"));
             emailcol.setCellValueFactory(new PropertyValueFactory<>("email"));
-            birthcol.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
+            birthcol.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
             departmentcol.setCellValueFactory(new PropertyValueFactory<>("idDep"));
             salarycol.setCellValueFactory(new PropertyValueFactory<>("salary"));
             tab.setItems(list);

@@ -18,7 +18,13 @@ public class Flight {
         this.idAirport = idAirport;
         this.idAirplane = idAirplane;
     }
-
+    public Flight(Date dateDepart, Date dateArrival, String destination, int idAirport, int idAirplane) {
+        this.dateDepart = dateDepart;
+        this.dateArrival = dateArrival;
+        this.destination = destination;
+        this.idAirport = idAirport;
+        this.idAirplane = idAirplane;
+    }
     public int getIdF() {
         return idF;
     }

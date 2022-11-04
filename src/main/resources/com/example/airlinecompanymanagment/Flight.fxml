@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.airlinecompanymanagment.Flight"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="711.0" prefWidth="959.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airlinecompanymanagment.controllers.FlightController">
+   <children>
+      <TableView fx:id="tab" layoutX="14.0" layoutY="156.0" onMouseClicked="#OnSet" prefHeight="200.0" prefWidth="542.0" style="-fx-background-color: #323232; -fx-border-color: #14FFEC;">
+         <columns>
+            <TableColumn fx:id="datedepartcol" prefWidth="111.199951171875" text="Date departure" />
+            <TableColumn fx:id="datearrivalcol" prefWidth="112.79998779296875" text="Date arrival" />
+            <TableColumn fx:id="destinationcol" prefWidth="110.39997863769531" text="Destination" />
+            <TableColumn fx:id="airportcol" prefWidth="111.20001220703125" text="Airport" />
+            <TableColumn fx:id="airplanecol" prefWidth="94.39999999999998" text="Airplane" />
+         </columns>
+      </TableView>
+      <TextField fx:id="departinput" layoutX="26.0" layoutY="25.0" promptText="Date Departure" />
+      <TextField fx:id="airportinput" layoutX="109.0" layoutY="63.0" promptText="Airport" />
+      <Button fx:id="addbtn" layoutX="144.0" layoutY="102.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Add" textFill="WHITE" />
+      <Button fx:id="deletebtn" layoutX="326.0" layoutY="102.0" mnemonicParsing="false" onAction="#onDelete" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #722f37;" styleClass="btn" text="Delete" textFill="WHITE" />
+      <Button fx:id="modifybtn" layoutX="236.0" layoutY="102.0" mnemonicParsing="false" onAction="#onModify" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Modify" textFill="WHITE" />
+      <Pane layoutX="526.0" layoutY="22.0" prefHeight="108.0" prefWidth="168.0" style="-fx-background-color: #0D7377;" styleClass="statsPane">
+         <children>
+            <Text fx:id="nbA" fill="WHITE" layoutX="70.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" wrappingWidth="33.336669921875">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="34.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Flights" wrappingWidth="115.99997558593753">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <TextField fx:id="arrivalinput" layoutX="192.0" layoutY="25.0" promptText="Date Arrival" />
+      <TextField fx:id="airplaneinput" layoutX="275.0" layoutY="63.0" promptText="Airplane" />
+      <TextField fx:id="destinationinput" layoutX="354.0" layoutY="25.0" promptText="Destination" />
+   </children>
 </AnchorPane>

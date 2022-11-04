@@ -12,6 +12,11 @@ public class Ticket {
         this.idF = idF;
         this.idC = idC;
     }
+    public Ticket( double price, int idF, int idC) {
+        this.price = price;
+        this.idF = idF;
+        this.idC = idC;
+    }
 
     public int getIdT() {
         return idT;
