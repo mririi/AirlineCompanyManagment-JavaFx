@@ -82,6 +82,7 @@ public class AirportController implements Initializable {
 
             Airport c = new Airport(this.nameInput.getText(),this.cityInput.getText(), this.stateInput.getText());
             tab.getItems().add(c);
+            nbA.setText(String.valueOf(list.size()));
             this.clearInput();
         }
 

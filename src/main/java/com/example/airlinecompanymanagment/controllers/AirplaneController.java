@@ -83,6 +83,7 @@ public class AirplaneController implements Initializable {
 
             Airplane c = new Airplane(name, status);
             tab.getItems().add(c);
+            nbA.setText(String.valueOf(list.size()));
             this.clearInput();
         }
 

@@ -11,20 +11,20 @@
 
 <AnchorPane prefHeight="711.0" prefWidth="959.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airlinecompanymanagment.controllers.AirportController">
    <children>
-      <TableView fx:id="tab" layoutX="14.0" layoutY="156.0" onMouseClicked="#OnSet" prefHeight="200.0" prefWidth="340.0" style="-fx-background-color: #323232; -fx-border-color: #14FFEC;">
+      <TableView fx:id="tab" layoutX="225.0" layoutY="156.0" onMouseClicked="#OnSet" prefHeight="200.0" prefWidth="340.0" style="-fx-background-color: #323232; -fx-border-color: #14FFEC;">
         <columns>
           <TableColumn fx:id="namecol" prefWidth="111.199951171875" text="Name" />
           <TableColumn fx:id="citycol" prefWidth="112.79998779296875" text="City" />
             <TableColumn fx:id="statecol" prefWidth="115.20001220703125" text="State" />
         </columns>
       </TableView>
-      <TextField fx:id="nameInput" layoutX="109.0" layoutY="25.0" promptText="Airport Name" />
-      <TextField fx:id="cityInput" layoutX="26.0" layoutY="63.0" promptText="Airport City" />
-      <TextField fx:id="stateInput" layoutX="193.0" layoutY="63.0" promptText="Airport State" />
-      <Button fx:id="addbtn" layoutX="53.0" layoutY="104.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Add" textFill="WHITE" />
-      <Button fx:id="deletebtn" layoutX="235.0" layoutY="104.0" mnemonicParsing="false" onAction="#onDelete" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #722f37;" styleClass="btn" text="Delete" textFill="WHITE" />
-      <Button fx:id="modifybtn" layoutX="145.0" layoutY="104.0" mnemonicParsing="false" onAction="#onModify" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Modify" textFill="WHITE" />
-      <Pane layoutX="380.0" layoutY="22.0" prefHeight="108.0" prefWidth="168.0" style="-fx-background-color: #0D7377;" styleClass="statsPane">
+      <TextField fx:id="nameInput" layoutX="320.0" layoutY="25.0" promptText="Airport Name" />
+      <TextField fx:id="cityInput" layoutX="237.0" layoutY="63.0" promptText="Airport City" />
+      <TextField fx:id="stateInput" layoutX="404.0" layoutY="63.0" promptText="Airport State" />
+      <Button fx:id="addbtn" layoutX="264.0" layoutY="104.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Add" textFill="WHITE" />
+      <Button fx:id="deletebtn" layoutX="446.0" layoutY="104.0" mnemonicParsing="false" onAction="#onDelete" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #722f37;" styleClass="btn" text="Delete" textFill="WHITE" />
+      <Button fx:id="modifybtn" layoutX="356.0" layoutY="104.0" mnemonicParsing="false" onAction="#onModify" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Modify" textFill="WHITE" />
+      <Pane layoutX="591.0" layoutY="22.0" prefHeight="108.0" prefWidth="168.0" style="-fx-background-color: #0D7377;" styleClass="statsPane">
          <children>
             <Text fx:id="nbA" fill="WHITE" layoutX="70.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" wrappingWidth="33.336669921875">
                <font>

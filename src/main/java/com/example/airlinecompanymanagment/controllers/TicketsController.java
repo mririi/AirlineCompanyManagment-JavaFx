@@ -18,6 +18,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -32,6 +34,10 @@ public class TicketsController implements Initializable {
     }
     @FXML
     private Button addbtn;
+    @FXML
+    private ComboBox<Integer> combo1;
+    @FXML
+    private ComboBox<Integer> combo2;
 
     @FXML
     private TextField clientInput;
@@ -74,8 +80,8 @@ public class TicketsController implements Initializable {
         c = tab.getSelectionModel().getSelectedItem().getIdC();
 
         priceInput.setText(String.valueOf(p));
-        flightInput.setText(String.valueOf(f));
-        clientInput.setText(String.valueOf(c));
+        combo1.setValue(c);
+        combo2.setValue(f);
 
 
     }
@@ -83,18 +89,19 @@ public class TicketsController implements Initializable {
     void onAdd(ActionEvent event) throws SQLException {
         if (this.isInputValid()) {
             String price = priceInput.getText();
-            String flight = flightInput.getText();
-            String client = clientInput.getText();
+            int flight = combo2.getValue();
+            int client = combo1.getValue();
 
             PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Ticket(price,idC,idF) values(?,?,?)");
 
             x.setString(1, price);
-            x.setString(2, flight);
-            x.setString(3, client);
+            x.setInt(2, client);
+            x.setInt(3, flight);
             x.execute();
 
-            Ticket c = new Ticket(parseDouble(this.priceInput.getText()),parseInt(this.flightInput.getText()), parseInt(this.clientInput.getText()));
+            Ticket c = new Ticket(parseDouble(this.priceInput.getText()),flight, client);
             tab.getItems().add(c);
+            nbA.setText(String.valueOf(list.size()));
             this.clearInput();
         }
 
@@ -103,12 +110,12 @@ public class TicketsController implements Initializable {
     }
     private void clearInput() {
         this.priceInput.setText("");
-        this.clientInput.setText("");
-        this.flightInput.setText("");
+        this.combo2.setValue(null);
+        this.combo1.setValue(null);
     }
 
     private boolean isInputValid() {
-        if (this.priceInput.getText().isEmpty() || this.clientInput.getText().isEmpty() || this.flightInput.getText().isEmpty()) {
+        if (this.priceInput.getText().isEmpty() || this.combo1.getValue()==null || this.combo2.getValue()==null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Input error!");
             alert.setHeaderText(null);
@@ -136,14 +143,14 @@ public class TicketsController implements Initializable {
     void onModify(ActionEvent event) throws SQLException {
         if (this.isInputValid()) {
             String n;
-            String c;
-            String s;
+            int c;
+            int s;
             int idA;
             idA = tab.getSelectionModel().getSelectedItem().getIdT();
             n = priceInput.getText();
-            c = clientInput.getText();
-            s = flightInput.getText();
-            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update ticket set price='" + n + "',idC='" + c + "', idF='" + s + "' where idA='" + idA + "' ");
+            c = combo1.getValue();
+            s = combo2.getValue();
+            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update ticket set price='" + n + "',idC='" + c + "', idF='" + s + "' where idT='" + idA + "' ");
             x.execute();
             clearInput();
             list.clear();
@@ -157,9 +164,40 @@ public class TicketsController implements Initializable {
             tab.setItems(list);
         }
     }
+    @FXML
+    List<Integer> onidclient () throws SQLException {
 
+        List<Integer> options = new ArrayList<>();
+
+        String query = "Select idC from client";
+        PreparedStatement st = (PreparedStatement) conn.prepareStatement(query);
+        ResultSet rs = (ResultSet) st.executeQuery();
+        while (rs.next()) {
+            options.add(rs.getInt("idC"));
+        }
+        return options;
+    }
+    @FXML
+    List<Integer> onidflight () throws SQLException {
+
+        List<Integer> options = new ArrayList<>();
+
+        String query = "Select idF from flight";
+        PreparedStatement st = (PreparedStatement) conn.prepareStatement(query);
+        ResultSet rs = (ResultSet) st.executeQuery();
+        while (rs.next()) {
+            options.add(rs.getInt("idF"));
+        }
+        return options;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            combo1.setItems(FXCollections.observableArrayList(onidclient()));
+            combo2.setItems(FXCollections.observableArrayList(onidflight()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         list.clear();
         ResultSet rs = null;
         try {

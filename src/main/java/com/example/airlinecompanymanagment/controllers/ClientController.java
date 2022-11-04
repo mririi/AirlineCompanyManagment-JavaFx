@@ -126,6 +126,7 @@ public class ClientController implements Initializable {
 
             Person c = new Person(this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getText()));
             tab.getItems().add(c);
+            nbC.setText(String.valueOf(list.size()));
             this.clearInput();
         }
 

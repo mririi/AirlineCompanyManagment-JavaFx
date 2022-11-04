@@ -11,16 +11,16 @@
 
 <AnchorPane prefHeight="597.0" prefWidth="854.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airlinecompanymanagment.controllers.DepartmentController">
    <children>
-      <TableView fx:id="tab" layoutX="14.0" layoutY="130.0" onMouseClicked="#OnSet" prefHeight="200.0" prefWidth="340.0" style="-fx-background-color: #323232; -fx-border-color: #14FFEC;">
+      <TableView fx:id="tab" layoutX="129.0" layoutY="129.0" onMouseClicked="#OnSet" prefHeight="200.0" prefWidth="340.0" style="-fx-background-color: #323232; -fx-border-color: #14FFEC;">
          <columns>
             <TableColumn fx:id="namecol" prefWidth="336.79999923706055" text="Department Name" />
          </columns>
       </TableView>
-      <TextField fx:id="nameInput" layoutX="109.0" layoutY="25.0" promptText="Department Name" />
-      <Button fx:id="addbtn" layoutX="50.0" layoutY="69.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Add" textFill="WHITE" />
-      <Button fx:id="deletebtn" layoutX="232.0" layoutY="69.0" mnemonicParsing="false" onAction="#onDelete" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #722f37;" styleClass="btn" text="Delete" textFill="WHITE" />
-      <Button fx:id="modifybtn" layoutX="142.0" layoutY="69.0" mnemonicParsing="false" onAction="#onModify" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Modify" textFill="WHITE" />
-      <Pane layoutX="380.0" layoutY="22.0" prefHeight="79.0" prefWidth="168.0" style="-fx-background-color: #0D7377;" styleClass="statsPane">
+      <TextField fx:id="nameInput" layoutX="224.0" layoutY="24.0" promptText="Department Name" />
+      <Button fx:id="addbtn" layoutX="165.0" layoutY="68.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Add" textFill="WHITE" />
+      <Button fx:id="deletebtn" layoutX="347.0" layoutY="68.0" mnemonicParsing="false" onAction="#onDelete" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #722f37;" styleClass="btn" text="Delete" textFill="WHITE" />
+      <Button fx:id="modifybtn" layoutX="257.0" layoutY="68.0" mnemonicParsing="false" onAction="#onModify" prefHeight="38.0" prefWidth="64.0" style="-fx-background-color: #0D7377;" styleClass="btn" text="Modify" textFill="WHITE" />
+      <Pane layoutX="495.0" layoutY="21.0" prefHeight="79.0" prefWidth="168.0" style="-fx-background-color: #0D7377;" styleClass="statsPane">
          <children>
             <Text fx:id="nbD" fill="WHITE" layoutX="67.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" wrappingWidth="33.336669921875">
                <font>

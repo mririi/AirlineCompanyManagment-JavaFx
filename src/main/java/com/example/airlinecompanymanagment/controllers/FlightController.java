@@ -18,9 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -52,6 +50,10 @@ public class FlightController implements Initializable{
 
     @FXML
     private TextField departinput;
+    @FXML
+    private ComboBox<Integer> combo1;
+    @FXML
+    private ComboBox<Integer> combo2;
     @FXML
     private TextField airplaneinput;
     @FXML
@@ -93,8 +95,8 @@ public class FlightController implements Initializable{
             departinput.setText(String.valueOf(depart));
             arrivalinput.setText(String.valueOf(arrival));
             destinationinput.setText(String.valueOf(destination));
-            airportinput.setText(String.valueOf(airport));
-            airplaneinput.setText(String.valueOf(airplane));
+            combo1.setValue(airport);
+            combo2.setValue(airplane);
 
 
         }
@@ -104,20 +106,21 @@ public class FlightController implements Initializable{
                 String depart = departinput.getText();
                 String arrival = arrivalinput.getText();
                 String destination = destinationinput.getText();
-                String airport = airportinput.getText();
-                String airplane = airplaneinput.getText();
+                int airport = combo1.getValue();
+                int airplane = combo2.getValue();
 
                 PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Flight(datedepart,datearrival,destination,idAirport,idAirplane) values(?,?,?,?,?)");
 
                 x.setString(1, depart);
                 x.setString(2, arrival);
                 x.setString(3, destination);
-                x.setString(4, airport);
-                x.setString(5, airplane);
+                x.setInt(4, airport);
+                x.setInt(5, airplane);
                 x.execute();
 
-                Flight c = new Flight(java.sql.Date.valueOf(this.departinput.getText()), java.sql.Date.valueOf(this.arrivalinput.getText()), this.destinationinput.getText(),parseInt(this.airportinput.getText()),parseInt(this.airplaneinput.getText()));
+                Flight c = new Flight(java.sql.Date.valueOf(this.departinput.getText()), java.sql.Date.valueOf(this.arrivalinput.getText()), this.destinationinput.getText(),this.combo1.getValue(),this.combo2.getValue());
                 tab.getItems().add(c);
+                nbA.setText(String.valueOf(list.size()));
                 this.clearInput();
             }
 
@@ -128,12 +131,12 @@ public class FlightController implements Initializable{
             this.departinput.setText("");
             this.arrivalinput.setText("");
             this.destinationinput.setText("");
-            this.airportinput.setText("");
-            this.airplaneinput.setText("");
+            this.combo1.setValue(null);
+            this.combo2.setValue(null);
         }
 
         private boolean isInputValid() {
-            if (this.departinput.getText().isEmpty() || this.arrivalinput.getText().isEmpty() || this.destinationinput.getText().isEmpty()|| this.airportinput.getText().isEmpty() || this.airplaneinput.getText().isEmpty()) {
+            if (this.departinput.getText().isEmpty() || this.arrivalinput.getText().isEmpty() || this.destinationinput.getText().isEmpty()|| this.combo1.getValue()==null || this.combo2.getValue()==null) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Input error!");
                 alert.setHeaderText(null);
@@ -171,8 +174,8 @@ public class FlightController implements Initializable{
                 depart = departinput.getText();
                 arrival = arrivalinput.getText();
                 destination = destinationinput.getText();
-                airport=parseInt(airportinput.getText());
-                airplane=parseInt(airplaneinput.getText());
+                airport=combo1.getValue();
+                airplane=combo2.getValue();
                 PreparedStatement x = (PreparedStatement) conn.prepareStatement("update flight set datedepart='" + depart + "',datearrival='" + arrival + "', destination='" + destination + "',idAirport='"+airport+"',idAirplane='"+airplane+"' where idF='" + idA + "' ");
                 x.execute();
                 clearInput();
@@ -189,9 +192,40 @@ public class FlightController implements Initializable{
                 tab.setItems(list);
             }
         }
+    @FXML
+    List<Integer> onidairport () throws SQLException {
 
+        List<Integer> options = new ArrayList<>();
+
+        String query = "Select idA from airport";
+        PreparedStatement st = (PreparedStatement) conn.prepareStatement(query);
+        ResultSet rs = (ResultSet) st.executeQuery();
+        while (rs.next()) {
+            options.add(rs.getInt("idA"));
+        }
+        return options;
+    }
+    @FXML
+    List<Integer> onidairplane () throws SQLException {
+
+        List<Integer> options = new ArrayList<>();
+
+        String query = "Select idAirplane from airplane";
+        PreparedStatement st = (PreparedStatement) conn.prepareStatement(query);
+        ResultSet rs = (ResultSet) st.executeQuery();
+        while (rs.next()) {
+            options.add(rs.getInt("idAirplane"));
+        }
+        return options;
+    }
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
+            try {
+                combo1.setItems(FXCollections.observableArrayList(onidairport()));
+                combo2.setItems(FXCollections.observableArrayList(onidairplane()));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             list.clear();
             ResultSet rs = null;
             try {

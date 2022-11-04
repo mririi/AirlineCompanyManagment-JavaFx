@@ -6,13 +6,13 @@ public class Ticket {
     private int idF; //ID FLIGHT
     private int idC;//ID CLIENT
 
-    public Ticket(int idT, double price, int idF, int idC) {
+    public Ticket(int idT, double price, int idC, int idF) {
         this.idT = idT;
         this.price = price;
         this.idF = idF;
         this.idC = idC;
     }
-    public Ticket( double price, int idF, int idC) {
+    public Ticket( double price,  int idC,int idF) {
         this.price = price;
         this.idF = idF;
         this.idC = idC;

@@ -16,6 +16,8 @@ import java.net.URL;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -89,6 +91,8 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private TableView<Person> tab;
+    @FXML
+    private ComboBox<Integer> combo;
 
     ObservableList<Person> list = FXCollections.observableArrayList();
 
@@ -120,7 +124,7 @@ public class EmployeesController implements Initializable {
         emailInput.setText(String.valueOf(em));
         phoneInput.setText(String.valueOf(tel));
         birthInput.setText(String.valueOf(birth));
-        departmentInput.setText(String.valueOf(dep));
+        combo.setValue(dep);
         salaryInput.setText(String.valueOf(sal));
 
 
@@ -134,7 +138,7 @@ public class EmployeesController implements Initializable {
             String tel = phoneInput.getText();
             String email = emailInput.getText();
             Date birth = Date.valueOf(birthInput.getText());
-            String department = departmentInput.getText();
+            int department = combo.getValue();;
             String salary = salaryInput.getText();
             PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Employee(lastname,firstname,address,tel,email,birthdate,salary,idDep) values(?,?,?,?,?,?,?,?)");
 
@@ -145,11 +149,12 @@ public class EmployeesController implements Initializable {
             x.setString(5, email);
             x.setDate(6, birth);
             x.setDouble(7,parseDouble(salary));
-            x.setInt(8, parseInt(department));
+            x.setInt(8, department);
             x.execute();
 
-            Person c = new Person(this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getText()),parseDouble(this.salaryInput.getText()),parseInt(this.departmentInput.getText()));
+            Person c = new Person(this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getText()),parseDouble(this.salaryInput.getText()),department);
             tab.getItems().add(c);
+            nbC.setText(String.valueOf(list.size()));
             this.clearInput();
         }
 
@@ -163,13 +168,14 @@ public class EmployeesController implements Initializable {
         this.phoneInput.setText("");
         this.emailInput.setText("");
         this.birthInput.setText("");
-        this.departmentInput.setText("");
-        this.departmentInput.setText("");
+        this.combo.setValue(null);
+        this.salaryInput.setText("");
+
 
     }
 
     private boolean isInputValid() {
-        if (this.firstnameInput.getText().isEmpty() || this.lastnameInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.phoneInput.getText().isEmpty() || this.emailcol.getText().isEmpty() || this.birthcol.getText().isEmpty() || this.departmentcol.getText().isEmpty() || this.salarycol.getText().isEmpty()) {
+        if (this.firstnameInput.getText().isEmpty() || this.lastnameInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.phoneInput.getText().isEmpty() || this.emailcol.getText().isEmpty() || this.birthcol.getText().isEmpty() || this.combo.getValue()==null || this.salarycol.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Input error!");
             alert.setHeaderText(null);
@@ -205,7 +211,7 @@ public class EmployeesController implements Initializable {
             String tel = phoneInput.getText();
             String email = emailInput.getText();
             String birth = birthInput.getText();
-            String depart = departmentInput.getText();
+            int depart = combo.getValue();;
             String salary = salaryInput.getText();
             PreparedStatement x = (PreparedStatement) conn.prepareStatement("update employee set firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"',salary='"+salary+"',idDep='"+depart+"',birthdate='"+birth+"' where idE='" +idC+"'");
             x.execute();
@@ -226,9 +232,26 @@ public class EmployeesController implements Initializable {
             tab.setItems(list);
         }
     }
+    @FXML
+    List<Integer> oniddepartment () throws SQLException {
 
+        List<Integer> options = new ArrayList<>();
+
+        String query = "Select idDep from department";
+        PreparedStatement st = (PreparedStatement) conn.prepareStatement(query);
+        ResultSet rs = (ResultSet) st.executeQuery();
+        while (rs.next()) {
+            options.add(rs.getInt("idDep"));
+        }
+        return options;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            combo.setItems(FXCollections.observableArrayList(oniddepartment()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         list.clear();
         ResultSet rs = null;
         try {
