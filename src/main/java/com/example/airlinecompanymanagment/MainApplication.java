@@ -11,9 +11,9 @@ import javafx.stage.StageStyle;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Dash.fxml"));
-        stage.setTitle("Dashboard");
-        Scene scene = new Scene(root,1020,450);
+        Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));
+        stage.setTitle("Home");
+        Scene scene = new Scene(root);
         stage.setResizable(false);
         //stage.initStyle(StageStyle.UNDECORATED);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());

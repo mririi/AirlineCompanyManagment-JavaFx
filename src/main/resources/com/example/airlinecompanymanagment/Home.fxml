@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 <?scenebuilder-stylesheet ../style.css?>
 
-<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="728.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airlinecompanymanagment.controllers.HomeController">
+<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="728.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airlinecompanymanagment.HomeController">
     <center>
-        <AnchorPane fx:id="ap" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <children>
-            <Label fx:id="lb" layoutX="333.0" layoutY="215.0" prefHeight="38.0" prefWidth="62.0" text="Home">
+        <AnchorPane fx:id="ap" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #212121;" stylesheets="@style.css" BorderPane.alignment="CENTER">
+            <cursor>
+                <Cursor fx:constant="DEFAULT" />
+            </cursor>
+         <children>
+            <Button layoutX="155.0" layoutY="160.0" mnemonicParsing="false" onAction="#overviewAction" prefHeight="118.0" prefWidth="178.0" styleClass="btn" text="Overview">
                <font>
                   <Font size="20.0" />
                </font>
-            </Label>
-            </children>
-            <cursor>
-                <Cursor fx:constant="DEFAULT" />
-            </cursor></AnchorPane>
+            </Button>
+            <Button layoutX="394.0" layoutY="160.0" mnemonicParsing="false" onAction="#managmentAction" prefHeight="118.0" prefWidth="178.0" styleClass="btn" text="Managment">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
     </center>
     <cursor>
         <Cursor fx:constant="HAND" />
