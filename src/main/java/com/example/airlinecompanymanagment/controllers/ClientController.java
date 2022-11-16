@@ -16,6 +16,7 @@ import java.net.URL;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -37,7 +38,7 @@ public class ClientController implements Initializable {
     private TableColumn<Person, String> addresscol;
 
     @FXML
-    private TextField birthInput;
+    private DatePicker birthInput;
 
     @FXML
     private TableColumn<Person, String> birthcol;
@@ -101,7 +102,7 @@ public class ClientController implements Initializable {
         addressInput.setText(String.valueOf(ad));
         emailInput.setText(String.valueOf(em));
         phoneInput.setText(String.valueOf(tel));
-        birthInput.setText(String.valueOf(birth));
+        birthInput.setValue(LocalDate.parse(String.valueOf(birth)));
 
 
     }
@@ -113,7 +114,7 @@ public class ClientController implements Initializable {
             String address = addressInput.getText();
             String tel = phoneInput.getText();
             String email = emailInput.getText();
-            Date birth = Date.valueOf(birthInput.getText());
+            Date birth = Date.valueOf(birthInput.getValue());
             PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Client(lastname,firstname,address,tel,email,birthdate) values(?,?,?,?,?,?)");
 
             x.setString(1, last);
@@ -124,7 +125,7 @@ public class ClientController implements Initializable {
             x.setDate(6, birth);
             x.execute();
 
-            Person c = new Person(this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getText()));
+            Person c = new Person(this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getValue()));
             tab.getItems().add(c);
             nbC.setText(String.valueOf(list.size()));
             this.clearInput();
@@ -139,7 +140,7 @@ public class ClientController implements Initializable {
         this.addressInput.setText("");
         this.phoneInput.setText("");
         this.emailInput.setText("");
-        this.birthInput.setText("");
+        this.birthInput.setValue(null);
 
     }
 
@@ -148,7 +149,17 @@ public class ClientController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Input error!");
             alert.setHeaderText(null);
-            alert.setContentText("Les champs ne doivent pas etre vide!");
+            alert.setContentText("Fields can't be empty!");
+            alert.show();
+            return false;
+        }
+        try {
+            Integer.parseInt(this.phoneInput.getText());
+        } catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Phone has to be a number!");
             alert.show();
             return false;
         }
@@ -179,7 +190,7 @@ public class ClientController implements Initializable {
             String address = addressInput.getText();
             String tel = phoneInput.getText();
             String email = emailInput.getText();
-            String birth = birthInput.getText();
+            Date birth = Date.valueOf(birthInput.getValue());
             PreparedStatement x = (PreparedStatement) conn.prepareStatement("update client set firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"',birthdate='"+birth+"' where idC='" + idC + "' ");
             x.execute();
             clearInput();

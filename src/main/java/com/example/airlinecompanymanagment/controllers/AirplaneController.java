@@ -100,7 +100,17 @@ public class AirplaneController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Input error!");
             alert.setHeaderText(null);
-            alert.setContentText("Les champs ne doivent pas etre vide!");
+            alert.setContentText("Fields can't be empty!");
+            alert.show();
+            return false;
+        }
+        try {
+            Integer.parseInt(this.statusInput.getText());
+        } catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Status has to be a number!");
             alert.show();
             return false;
         }

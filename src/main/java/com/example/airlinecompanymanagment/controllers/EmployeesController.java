@@ -40,7 +40,7 @@ public class EmployeesController implements Initializable {
     private TableColumn<Person, String> addresscol;
 
     @FXML
-    private TextField birthInput;
+    private DatePicker birthInput;
 
     @FXML
     private TableColumn<Person, String> birthcol;
@@ -123,7 +123,7 @@ public class EmployeesController implements Initializable {
         addressInput.setText(String.valueOf(ad));
         emailInput.setText(String.valueOf(em));
         phoneInput.setText(String.valueOf(tel));
-        birthInput.setText(String.valueOf(birth));
+        birthInput.setValue(birth.toLocalDate());
         combo.setValue(dep);
         salaryInput.setText(String.valueOf(sal));
 
@@ -137,7 +137,7 @@ public class EmployeesController implements Initializable {
             String address = addressInput.getText();
             String tel = phoneInput.getText();
             String email = emailInput.getText();
-            Date birth = Date.valueOf(birthInput.getText());
+            Date birth = Date.valueOf(birthInput.getValue());
             int department = combo.getValue();;
             String salary = salaryInput.getText();
             PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Employee(lastname,firstname,address,tel,email,birthdate,salary,idDep) values(?,?,?,?,?,?,?,?)");
@@ -152,7 +152,7 @@ public class EmployeesController implements Initializable {
             x.setInt(8, department);
             x.execute();
 
-            Person c = new Person(this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getText()),parseDouble(this.salaryInput.getText()),department);
+            Person c = new Person(this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getValue()),parseDouble(this.salaryInput.getText()),department);
             tab.getItems().add(c);
             nbC.setText(String.valueOf(list.size()));
             this.clearInput();
@@ -167,7 +167,7 @@ public class EmployeesController implements Initializable {
         this.addressInput.setText("");
         this.phoneInput.setText("");
         this.emailInput.setText("");
-        this.birthInput.setText("");
+        this.birthInput.setValue(null);
         this.combo.setValue(null);
         this.salaryInput.setText("");
 
@@ -180,6 +180,26 @@ public class EmployeesController implements Initializable {
             alert.setTitle("Input error!");
             alert.setHeaderText(null);
             alert.setContentText("Les champs ne doivent pas etre vide!");
+            alert.show();
+            return false;
+        }
+        try {
+            Integer.parseInt(this.phoneInput.getText());
+        } catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Phone has to be a number!");
+            alert.show();
+            return false;
+        }
+        try {
+            Double.parseDouble(this.salaryInput.getText());
+        } catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Salary has to be a double!");
             alert.show();
             return false;
         }
@@ -210,7 +230,7 @@ public class EmployeesController implements Initializable {
             String address = addressInput.getText();
             String tel = phoneInput.getText();
             String email = emailInput.getText();
-            String birth = birthInput.getText();
+            String birth = String.valueOf(birthInput.getValue());
             int depart = combo.getValue();;
             String salary = salaryInput.getText();
             PreparedStatement x = (PreparedStatement) conn.prepareStatement("update employee set firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"',salary='"+salary+"',idDep='"+depart+"',birthdate='"+birth+"' where idE='" +idC+"'");

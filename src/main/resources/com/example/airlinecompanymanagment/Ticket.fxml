@@ -30,7 +30,7 @@
                   <Font size="27.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="27.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Airports" wrappingWidth="115.99997558593753">
+            <Text fill="WHITE" layoutX="27.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Tickets" wrappingWidth="115.99997558593753">
                <font>
                   <Font size="13.0" />
                </font>

@@ -119,7 +119,17 @@ public class TicketsController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Input error!");
             alert.setHeaderText(null);
-            alert.setContentText("Les champs ne doivent pas etre vide!");
+            alert.setContentText("Fields can't be empty!");
+            alert.show();
+            return false;
+        }
+        try {
+            Double.parseDouble(this.priceInput.getText());
+        } catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Price has to be a double!");
             alert.show();
             return false;
         }
