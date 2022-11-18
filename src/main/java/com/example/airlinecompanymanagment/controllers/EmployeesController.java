@@ -170,10 +170,7 @@ public class EmployeesController implements Initializable {
         this.birthInput.setValue(null);
         this.combo.setValue(null);
         this.salaryInput.setText("");
-
-
     }
-
     private boolean isInputValid() {
         if (this.firstnameInput.getText().isEmpty() || this.lastnameInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.phoneInput.getText().isEmpty() || this.emailcol.getText().isEmpty() || this.birthcol.getText().isEmpty() || this.combo.getValue()==null || this.salarycol.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
