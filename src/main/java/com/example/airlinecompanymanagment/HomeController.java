@@ -42,7 +42,7 @@ public class HomeController {
         Stage stage=new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Overview.fxml"));
         stage.setTitle("Overview");
-        Scene scene = new Scene(root,850,450);
+        Scene scene = new Scene(root);
         stage.setResizable(false);
         //stage.initStyle(StageStyle.UNDECORATED);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());

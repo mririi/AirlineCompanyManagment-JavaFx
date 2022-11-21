@@ -4,15 +4,15 @@ public class Ticket {
     private int idT;
     private double price;
     private int idF; //ID FLIGHT
-    private int idC;//ID CLIENT
+    private String idC;//ID CLIENT
 
-    public Ticket(int idT, double price, int idC, int idF) {
+    public Ticket(int idT, double price, String idC, int idF) {
         this.idT = idT;
         this.price = price;
         this.idF = idF;
         this.idC = idC;
     }
-    public Ticket( double price,  int idC,int idF) {
+    public Ticket( double price,  String idC,int idF) {
         this.price = price;
         this.idF = idF;
         this.idC = idC;
@@ -42,11 +42,11 @@ public class Ticket {
         this.idF = idF;
     }
 
-    public int getIdC() {
+    public String getIdC() {
         return idC;
     }
 
-    public void setIdC(int idC) {
+    public void setIdC(String idC) {
         this.idC = idC;
     }
 

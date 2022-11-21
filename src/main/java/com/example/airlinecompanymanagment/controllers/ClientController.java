@@ -30,7 +30,11 @@ public class ClientController implements Initializable {
     }
     @FXML
     private Button addbtn;
+    @FXML
+    private TableColumn<?, ?> passportcol;
 
+    @FXML
+    private TextField passportinput;
     @FXML
     private TextField addressInput;
 
@@ -83,6 +87,7 @@ public class ClientController implements Initializable {
 
     @FXML
     void OnSet(MouseEvent event) {
+        String np;
         String fn;
         String ln;
         String ad;
@@ -90,6 +95,7 @@ public class ClientController implements Initializable {
         int tel;
         Date birth;
 
+        np= tab.getSelectionModel().getSelectedItem().getNpassport();
         ln = tab.getSelectionModel().getSelectedItem().getLastName();
         fn = tab.getSelectionModel().getSelectedItem().getFirstName();
         ad = tab.getSelectionModel().getSelectedItem().getAddress();
@@ -97,6 +103,7 @@ public class ClientController implements Initializable {
         tel = tab.getSelectionModel().getSelectedItem().getTel();
         birth = (Date) tab.getSelectionModel().getSelectedItem().getBirthDate();
 
+        passportinput.setText(np);
         firstnameInput.setText(String.valueOf(fn));
         lastnameInput.setText(String.valueOf(ln));
         addressInput.setText(String.valueOf(ad));
@@ -109,23 +116,25 @@ public class ClientController implements Initializable {
     @FXML
     void onAdd(ActionEvent event) throws SQLException, ParseException {
         if (this.isInputValid()) {
+            String pass=passportinput.getText();
             String first = firstnameInput.getText();
             String last = lastnameInput.getText();
             String address = addressInput.getText();
             String tel = phoneInput.getText();
             String email = emailInput.getText();
             Date birth = Date.valueOf(birthInput.getValue());
-            PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Client(lastname,firstname,address,tel,email,birthdate) values(?,?,?,?,?,?)");
+            PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Client(npassport,lastname,firstname,address,tel,email,birthdate) values(?,?,?,?,?,?,?)");
 
-            x.setString(1, last);
-            x.setString(2, first);
-            x.setString(3, address);
-            x.setInt(4, parseInt(tel));
-            x.setString(5, email);
-            x.setDate(6, birth);
+            x.setString(1, pass);
+            x.setString(2, last);
+            x.setString(3, first);
+            x.setString(4,address );
+            x.setInt(5, parseInt(tel));
+            x.setString(6, email);
+            x.setDate(7, birth);
             x.execute();
 
-            Person c = new Person(this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getValue()));
+            Person c = new Person(pass,this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getValue()));
             tab.getItems().add(c);
             nbC.setText(String.valueOf(list.size()));
             this.clearInput();
@@ -135,6 +144,7 @@ public class ClientController implements Initializable {
 
     }
     private void clearInput() {
+        this.passportinput.setText("");
         this.firstnameInput.setText("");
         this.lastnameInput.setText("");
         this.addressInput.setText("");
@@ -145,7 +155,7 @@ public class ClientController implements Initializable {
     }
 
     private boolean isInputValid() {
-        if (this.firstnameInput.getText().isEmpty() || this.lastnameInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.phoneInput.getText().isEmpty() || this.emailcol.getText().isEmpty() || this.birthcol.getText().isEmpty()) {
+        if (this.passportinput.getText().isEmpty() || this.firstnameInput.getText().isEmpty() || this.lastnameInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.phoneInput.getText().isEmpty() || this.emailcol.getText().isEmpty() || this.birthcol.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Input error!");
             alert.setHeaderText(null);
@@ -160,6 +170,14 @@ public class ClientController implements Initializable {
             alert.setTitle("Input error!");
             alert.setHeaderText(null);
             alert.setContentText("Phone has to be a number!");
+            alert.show();
+            return false;
+        }
+        if (this.passportinput.getText().length()<8) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Passport number length has to be 8!");
             alert.show();
             return false;
         }
@@ -185,20 +203,22 @@ public class ClientController implements Initializable {
 
             int idC;
             idC = tab.getSelectionModel().getSelectedItem().getIdP();
+            String pass =passportinput.getText();
             String first = firstnameInput.getText();
             String last = lastnameInput.getText();
             String address = addressInput.getText();
             String tel = phoneInput.getText();
             String email = emailInput.getText();
             Date birth = Date.valueOf(birthInput.getValue());
-            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update client set firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"',birthdate='"+birth+"' where idC='" + idC + "' ");
+            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update client set npassport='"+pass+"',firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"',birthdate='"+birth+"' where idC='" + idC + "' ");
             x.execute();
             clearInput();
             list.clear();
             ResultSet rs = conn.createStatement().executeQuery("select * from client");
             while (rs.next()) {
-                list.add(new Person(rs.getInt("idC"),rs.getString("firstname"), rs.getString("lastname"), rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate")));
+                list.add(new Person(rs.getInt("idC"),rs.getString("npassport"),rs.getString("firstname"), rs.getString("lastname"), rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate")));
             }
+            passportcol.setCellValueFactory(new PropertyValueFactory<>("npassport"));
             firstnamecol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
             lastnamecol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
             addresscol.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -225,11 +245,12 @@ public class ClientController implements Initializable {
                 throw new RuntimeException(e);
             }
             try {
-                list.add(new Person(rs.getInt("idC"),rs.getString("lastname"),rs.getString("firstname"),  rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate")));
+                list.add(new Person(rs.getInt("idC"),rs.getString("npassport"),rs.getString("lastname"),rs.getString("firstname"),  rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate")));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+        passportcol.setCellValueFactory(new PropertyValueFactory<>("npassport"));
         lastnamecol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         firstnamecol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         addresscol.setCellValueFactory(new PropertyValueFactory<>("address"));

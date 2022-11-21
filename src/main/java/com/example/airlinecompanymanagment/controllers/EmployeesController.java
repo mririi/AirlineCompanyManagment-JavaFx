@@ -92,7 +92,7 @@ public class EmployeesController implements Initializable {
     @FXML
     private TableView<Person> tab;
     @FXML
-    private ComboBox<Integer> combo;
+    private ComboBox<String> combo;
 
     ObservableList<Person> list = FXCollections.observableArrayList();
 
@@ -104,7 +104,7 @@ public class EmployeesController implements Initializable {
         String em;
         int tel;
         Date birth;
-        int dep;
+        String dep;
         double sal;
 
         ln = tab.getSelectionModel().getSelectedItem().getLastName();
@@ -138,7 +138,7 @@ public class EmployeesController implements Initializable {
             String tel = phoneInput.getText();
             String email = emailInput.getText();
             Date birth = Date.valueOf(birthInput.getValue());
-            int department = combo.getValue();;
+            String department = combo.getValue();;
             String salary = salaryInput.getText();
             PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Employee(lastname,firstname,address,tel,email,birthdate,salary,idDep) values(?,?,?,?,?,?,?,?)");
 
@@ -149,7 +149,12 @@ public class EmployeesController implements Initializable {
             x.setString(5, email);
             x.setDate(6, birth);
             x.setDouble(7,parseDouble(salary));
-            x.setInt(8, department);
+            ResultSet rs = conn.createStatement().executeQuery("Select idDep from department where name='"+department+"'");
+
+            while (rs.next()) {
+                x.setInt(8, rs.getInt("idDep"));
+            }
+
             x.execute();
 
             Person c = new Person(this.lastnameInput.getText(),this.firstnameInput.getText(), this.addressInput.getText(),parseInt(this.phoneInput.getText()),this.emailInput.getText(),Date.valueOf(birthInput.getValue()),parseDouble(this.salaryInput.getText()),department);
@@ -228,15 +233,18 @@ public class EmployeesController implements Initializable {
             String tel = phoneInput.getText();
             String email = emailInput.getText();
             String birth = String.valueOf(birthInput.getValue());
-            int depart = combo.getValue();;
+            String depart = combo.getValue();;
             String salary = salaryInput.getText();
-            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update employee set firstname='" + first +"',lastname='"+last+"',address='"+address+"',tel='"+tel+"',email='"+email+"',salary='"+salary+"',idDep='"+depart+"',birthdate='"+birth+"' where idE='" +idC+"'");
-            x.execute();
+            ResultSet rss = conn.createStatement().executeQuery("Select idDep from department where name='"+depart+"'");
+            while (rss.next()) {
+                PreparedStatement x = (PreparedStatement) conn.prepareStatement("update employee set firstname='" + first + "',lastname='" + last + "',address='" + address + "',tel='" + tel + "',email='" + email + "',salary='" + salary + "',idDep='" + rss.getInt("idDep") + "',birthdate='" + birth + "' where idE='" + idC + "'");
+                x.execute();
+            }
             clearInput();
             list.clear();
-            ResultSet rs = conn.createStatement().executeQuery("select * from employee");
+            ResultSet rs = conn.createStatement().executeQuery("select idE,lastname,firstname,address,tel,email,birthdate,salary,name from employee e,department d where e.idDep=d.idDep");
             while (rs.next()) {
-                list.add(new Person(rs.getInt("idE"),rs.getString("firstname"), rs.getString("lastname"), rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate"),rs.getDouble("salary"),rs.getInt("idDep")));
+                list.add(new Person(rs.getInt("idE"),rs.getString("firstname"), rs.getString("lastname"), rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate"),rs.getDouble("salary"),rs.getString("name")));
             }
             firstnamecol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
             lastnamecol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -250,15 +258,15 @@ public class EmployeesController implements Initializable {
         }
     }
     @FXML
-    List<Integer> oniddepartment () throws SQLException {
+    List<String> oniddepartment () throws SQLException {
 
-        List<Integer> options = new ArrayList<>();
+        List<String> options = new ArrayList<>();
 
-        String query = "Select idDep from department";
+        String query = "Select name from department";
         PreparedStatement st = (PreparedStatement) conn.prepareStatement(query);
         ResultSet rs = (ResultSet) st.executeQuery();
         while (rs.next()) {
-            options.add(rs.getInt("idDep"));
+            options.add(rs.getString("name"));
         }
         return options;
     }
@@ -272,7 +280,7 @@ public class EmployeesController implements Initializable {
         list.clear();
         ResultSet rs = null;
         try {
-            rs = conn.createStatement().executeQuery("select * from employee");
+            rs = conn.createStatement().executeQuery("select idE,lastname,firstname,address,tel,email,birthdate,salary,name from employee e,department d where e.idDep=d.idDep");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -283,7 +291,7 @@ public class EmployeesController implements Initializable {
                 throw new RuntimeException(e);
             }
             try {
-                list.add(new Person(rs.getInt("idE"),rs.getString("lastname"),rs.getString("firstname"),  rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate"),rs.getDouble("salary"),rs.getInt("idDep")));
+                list.add(new Person(rs.getInt("idE"),rs.getString("lastname"),rs.getString("firstname"),  rs.getString("address"), rs.getInt("tel"), rs.getString("email"), rs.getDate("birthdate"),rs.getDouble("salary"),rs.getString("name")));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

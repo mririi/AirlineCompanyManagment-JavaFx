@@ -9,10 +9,10 @@ public class Flight {
     private String tempsDepart;
     private String tempsArrival;
     private String destination;
-    private int idAirport;
-    private int idAirplane;
+    private String idAirport;
+    private String idAirplane;
 
-    public Flight(int idF, Date dateDepart, Date dateArrival, String tempsDepart, String tempsArrival, String destination, int idAirport, int idAirplane) {
+    public Flight(int idF, Date dateDepart, Date dateArrival, String tempsDepart, String tempsArrival, String destination, String idAirport, String idAirplane) {
         this.idF = idF;
         this.dateDepart = dateDepart;
         this.dateArrival = dateArrival;
@@ -23,7 +23,7 @@ public class Flight {
         this.idAirplane = idAirplane;
     }
 
-    public Flight(Date dateDepart, Date dateArrival, String tempsDepart, String tempsArrival, String destination, int idAirport, int idAirplane) {
+    public Flight(Date dateDepart, Date dateArrival, String tempsDepart, String tempsArrival, String destination, String idAirport, String idAirplane) {
         this.dateDepart = dateDepart;
         this.dateArrival = dateArrival;
         this.tempsDepart = tempsDepart;
@@ -81,19 +81,19 @@ public class Flight {
         this.destination = destination;
     }
 
-    public int getIdAirport() {
+    public String getIdAirport() {
         return idAirport;
     }
 
-    public void setIdAirport(int idAirport) {
+    public void setIdAirport(String idAirport) {
         this.idAirport = idAirport;
     }
 
-    public int getIdAirplane() {
+    public String getIdAirplane() {
         return idAirplane;
     }
 
-    public void setIdAirplane(int idAirplane) {
+    public void setIdAirplane(String idAirplane) {
         this.idAirplane = idAirplane;
     }
 }

@@ -35,7 +35,7 @@ public class TicketsController implements Initializable {
     @FXML
     private Button addbtn;
     @FXML
-    private ComboBox<Integer> combo1;
+    private ComboBox<String> combo1;
     @FXML
     private ComboBox<Integer> combo2;
 
@@ -73,7 +73,7 @@ public class TicketsController implements Initializable {
     void OnSet(MouseEvent event) {
         double p;
         int f;
-        int c;
+        String c;
 
         p = tab.getSelectionModel().getSelectedItem().getPrice();
         f = tab.getSelectionModel().getSelectedItem().getIdF();
@@ -90,16 +90,19 @@ public class TicketsController implements Initializable {
         if (this.isInputValid()) {
             String price = priceInput.getText();
             int flight = combo2.getValue();
-            int client = combo1.getValue();
+            String client = combo1.getValue();
 
             PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Ticket(price,idC,idF) values(?,?,?)");
 
             x.setString(1, price);
-            x.setInt(2, client);
+            ResultSet rss = conn.createStatement().executeQuery("Select idC from client where npassport='"+client+"'");
+            while (rss.next()) {
+                x.setInt(2, rss.getInt("idC"));
+            }
             x.setInt(3, flight);
             x.execute();
 
-            Ticket c = new Ticket(parseDouble(this.priceInput.getText()),flight, client);
+            Ticket c = new Ticket(parseDouble(this.priceInput.getText()),client, flight);
             tab.getItems().add(c);
             nbA.setText(String.valueOf(list.size()));
             this.clearInput();
@@ -153,20 +156,23 @@ public class TicketsController implements Initializable {
     void onModify(ActionEvent event) throws SQLException {
         if (this.isInputValid()) {
             String n;
-            int c;
+            String c;
             int s;
             int idA;
             idA = tab.getSelectionModel().getSelectedItem().getIdT();
             n = priceInput.getText();
             c = combo1.getValue();
             s = combo2.getValue();
-            PreparedStatement x = (PreparedStatement) conn.prepareStatement("update ticket set price='" + n + "',idC='" + c + "', idF='" + s + "' where idT='" + idA + "' ");
-            x.execute();
+            ResultSet rss = conn.createStatement().executeQuery("Select idDep from department where name='"+c+"'");
+            while (rss.next()) {
+                PreparedStatement x = (PreparedStatement) conn.prepareStatement("update ticket set price='" + n + "',idC='" + rss.getInt("idC") + "', idF='" + s + "' where idT='" + idA + "' ");
+                x.execute();
+            }
             clearInput();
             list.clear();
-            ResultSet rs = conn.createStatement().executeQuery("select * from ticket");
+            ResultSet rs = conn.createStatement().executeQuery("select idT,price,npassport,idF from ticket,client where client.idC=ticket.idC");
             while (rs.next()) {
-                list.add(new Ticket(rs.getInt("idT"),rs.getDouble("price"), rs.getInt("idC"), rs.getInt("idF")));
+                list.add(new Ticket(rs.getInt("idT"),rs.getDouble("price"), rs.getString("npassport"), rs.getInt("idF")));
             }
             pricecol.setCellValueFactory(new PropertyValueFactory<>("price"));
             clientcol.setCellValueFactory(new PropertyValueFactory<>("idC"));
@@ -175,15 +181,15 @@ public class TicketsController implements Initializable {
         }
     }
     @FXML
-    List<Integer> onidclient () throws SQLException {
+    List<String> onidclient () throws SQLException {
 
-        List<Integer> options = new ArrayList<>();
+        List<String> options = new ArrayList<>();
 
-        String query = "Select idC from client";
+        String query = "Select npassport from client";
         PreparedStatement st = (PreparedStatement) conn.prepareStatement(query);
         ResultSet rs = (ResultSet) st.executeQuery();
         while (rs.next()) {
-            options.add(rs.getInt("idC"));
+            options.add(rs.getString("npassport"));
         }
         return options;
     }
@@ -211,7 +217,7 @@ public class TicketsController implements Initializable {
         list.clear();
         ResultSet rs = null;
         try {
-            rs = conn.createStatement().executeQuery("select * from Ticket");
+            rs = conn.createStatement().executeQuery("select idT,price,npassport,idF from ticket,client where client.idC=ticket.idC");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -222,7 +228,7 @@ public class TicketsController implements Initializable {
                 throw new RuntimeException(e);
             }
             try {
-                list.add(new Ticket(rs.getInt("idT"),rs.getDouble("price"), rs.getInt("idC"), rs.getInt("idF")));
+                list.add(new Ticket(rs.getInt("idT"),rs.getDouble("price"), rs.getString("npassport"), rs.getInt("idF")));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

@@ -6,18 +6,43 @@ import java.util.Date;
 public class Person {
 
     private int idP;
+    private String npassport;
     private String lastName;
     private String firstName;
     private String address;
     private int tel;
     private String email;
     private Date birthDate;
-    private int idDep; //ID DEPARTMENT
+    private String idDep; //ID DEPARTMENT
     private double salary;
 
-    // Clients
-    public Person(int idP, String lastName, String firstName, String address, int tel, String email, Date birthDate) {
+    //Employees
+    public Person(int idP, String lastName, String firstName, String address, int tel, String email, Date birthDate, double salary,String idDep) {
         this.idP = idP;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.address = address;
+        this.tel = tel;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.idDep = idDep;
+        this.salary = salary;
+    }
+    public Person( String lastName, String firstName, String address, int tel, String email, Date birthDate, double salary,String idDep) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.address = address;
+        this.tel = tel;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.idDep = idDep;
+        this.salary = salary;
+    }
+   //Clients
+
+    public Person(int idP, String npassport, String lastName, String firstName, String address, int tel, String email, Date birthDate) {
+        this.idP = idP;
+        this.npassport = npassport;
         this.lastName = lastName;
         this.firstName = firstName;
         this.address = address;
@@ -26,29 +51,8 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    //Employees
-    public Person(int idP, String lastName, String firstName, String address, int tel, String email, Date birthDate, double salary,int idDep) {
-        this.idP = idP;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.address = address;
-        this.tel = tel;
-        this.email = email;
-        this.birthDate = birthDate;
-        this.idDep = idDep;
-        this.salary = salary;
-    }
-    public Person( String lastName, String firstName, String address, int tel, String email, Date birthDate, double salary,int idDep) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.address = address;
-        this.tel = tel;
-        this.email = email;
-        this.birthDate = birthDate;
-        this.idDep = idDep;
-        this.salary = salary;
-    }
-    public Person(String lastName, String firstName, String address, int tel, String email, Date birthDate) {
+    public Person(String npassport, String lastName, String firstName, String address, int tel, String email, Date birthDate) {
+        this.npassport = npassport;
         this.lastName = lastName;
         this.firstName = firstName;
         this.address = address;
@@ -63,6 +67,14 @@ public class Person {
 
     public void setIdP(int idP) {
         this.idP = idP;
+    }
+
+    public String getNpassport() {
+        return npassport;
+    }
+
+    public void setNpassport(String npassport) {
+        this.npassport = npassport;
     }
 
     public String getLastName() {
@@ -113,11 +125,11 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    public int getIdDep() {
+    public String getIdDep() {
         return idDep;
     }
 
-    public void setIdDep(int idDep) {
+    public void setIdDep(String idDep) {
         this.idDep = idDep;
     }
 

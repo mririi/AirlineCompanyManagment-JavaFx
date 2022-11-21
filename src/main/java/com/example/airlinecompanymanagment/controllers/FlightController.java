@@ -1,6 +1,5 @@
 package com.example.airlinecompanymanagment.controllers;
 
-import com.example.airlinecompanymanagment.models.Airport;
 import com.example.airlinecompanymanagment.models.Flight;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,17 +16,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
-import static java.lang.Integer.parseInt;
 
 public class FlightController implements Initializable{
 
 
         Connection conn = null;
-
         public FlightController() {
             conn = SingletonConnection.getConnection();
         }
@@ -61,9 +57,9 @@ public class FlightController implements Initializable{
     @FXML
     private DatePicker departinput;
     @FXML
-    private ComboBox<Integer> combo1;
+    private ComboBox<String> combo1;
     @FXML
-    private ComboBox<Integer> combo2;
+    private ComboBox<String> combo2;
     @FXML
     private TextField airplaneinput;
     @FXML
@@ -95,8 +91,8 @@ public class FlightController implements Initializable{
             String destination;
             String departtime;
             String arrivaltime;
-            int airport;
-            int airplane;
+            String airport;
+            String airplane;
 
             depart = String.valueOf(tab.getSelectionModel().getSelectedItem().getDateDepart());
             arrival = String.valueOf(tab.getSelectionModel().getSelectedItem().getDateArrival());
@@ -122,8 +118,8 @@ public class FlightController implements Initializable{
                 String arrivaltime = arrivaltempsinput.getText();
                 String departtime = departtempsinput.getText();
                 String destination = destinationinput.getText();
-                int airport = combo1.getValue();
-                int airplane = combo2.getValue();
+                String airport = combo1.getValue();
+                String airplane = combo2.getValue();
 
                 PreparedStatement x = (PreparedStatement) conn.prepareStatement("insert into Flight(datedepart,datearrival,tempsdepart,tempsarrival,destination,idAirport,idAirplane) values(?,?,?,?,?,?,?)");
 
@@ -132,8 +128,11 @@ public class FlightController implements Initializable{
                 x.setString(3, departtime);
                 x.setString(4, arrivaltime);
                 x.setString(5, destination);
-                x.setInt(6, airport);
-                x.setInt(7, airplane);
+                ResultSet rs = conn.createStatement().executeQuery("Select idA,idAirplane from airport,airplane where airport.name='"+airport+"' and airplane.name='"+airplane+"'");
+                while (rs.next()) {
+                    x.setInt(6, rs.getInt("idA"));
+                    x.setInt(7, rs.getInt("idAirplane"));
+                }
                 x.execute();
 
                 Flight c = new Flight(java.sql.Date.valueOf(this.departinput.getValue()), java.sql.Date.valueOf(this.arrivalinput.getValue()),this.departtempsinput.getText(),this.arrivaltempsinput.getText(), this.destinationinput.getText(),this.combo1.getValue(),this.combo2.getValue());
@@ -164,6 +163,44 @@ public class FlightController implements Initializable{
                 alert.show();
                 return false;
             }
+            if (this.departinput.getValue().compareTo(this.arrivalinput.getValue())>0){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Input error!");
+                alert.setHeaderText(null);
+                alert.setContentText("Arrival date has to be after Departure date!");
+                alert.show();
+                return false;
+            }
+            if ((this.departtempsinput.getText().indexOf(':')!=2 && this.departtempsinput.getText().length()!=5 ) || (this.arrivaltempsinput.getText().indexOf(':')!=2 && this.arrivaltempsinput.getText().length()!=5) ){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Input error!");
+                alert.setHeaderText(null);
+                alert.setContentText("Time has to be in this format hh:mm! example: 12:12");
+                alert.show();
+                return false;
+            }
+            try {
+                Integer.parseInt(this.departtempsinput.getText().substring(0,2));
+                Integer.parseInt(this.departtempsinput.getText().substring(3,5));
+                Integer.parseInt(this.arrivaltempsinput.getText().substring(0,2));
+                Integer.parseInt(this.arrivaltempsinput.getText().substring(3,5));
+            } catch(NumberFormatException e){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Input error!");
+                alert.setHeaderText(null);
+                alert.setContentText("Time has to be in this format hh:mm! example: 12:12");
+                alert.show();
+                return false;
+            }
+            System.out.print(this.departtempsinput.getText().substring(0,2));
+            if (this.departinput.getValue().compareTo(this.arrivalinput.getValue())==0 && Integer.parseInt(this.departtempsinput.getText().substring(0,2))>=Integer.parseInt(this.arrivaltempsinput.getText().substring(0,2))){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Input error!");
+                alert.setHeaderText(null);
+                alert.setContentText("Arrival time has to be after Departure time!");
+                alert.show();
+                return false;
+            }
             return true;
         }
         @FXML
@@ -188,9 +225,8 @@ public class FlightController implements Initializable{
                 String departtime;
                 String arrivaltime;
                 String destination;
-                int airport;
-                int airplane;
-
+                String airport;
+                String airplane;
                 int idA;
                 idA = tab.getSelectionModel().getSelectedItem().getIdF();
                 depart = String.valueOf(departinput.getValue());
@@ -200,13 +236,17 @@ public class FlightController implements Initializable{
                 destination = destinationinput.getText();
                 airport=combo1.getValue();
                 airplane=combo2.getValue();
-                PreparedStatement x = (PreparedStatement) conn.prepareStatement("update flight set datedepart='" + depart + "',datearrival='" + arrival + "',tempsdepart='"+departtime+"',tempsarrival='"+arrivaltime+"', destination='" + destination + "',idAirport='"+airport+"',idAirplane='"+airplane+"' where idF='" + idA + "' ");
-                x.execute();
+                ResultSet rss = conn.createStatement().executeQuery("Select idA,idAirplane from airport,airplane where airport.name='"+airport+"' and airplane.name='"+airplane+"'");
+                while (rss.next()) {
+                    PreparedStatement x = (PreparedStatement) conn.prepareStatement("update flight set datedepart='" + depart + "',datearrival='" + arrival + "',tempsdepart='" + departtime + "',tempsarrival='" + arrivaltime + "', destination='" + destination + "',idAirport='" + rss.getInt("idA") + "',idAirplane='" + rss.getInt("idAirplane") + "' where idF='" + idA + "' ");
+                    x.execute();
+                }
+
                 clearInput();
                 list.clear();
-                ResultSet rs = conn.createStatement().executeQuery("select * from flight");
+                ResultSet rs = conn.createStatement().executeQuery("select idF,dateDepart,dateArrival,tempsDepart,tempsArrival,destination,airport.name as airportname,airplane.name as airplanename from flight,airport,airplane where airport.idA=flight.idAirport and airplane.idAirplane=flight.idAirplane");
                 while (rs.next()) {
-                    list.add(new Flight(rs.getInt("idF"),rs.getDate("dateDepart"), rs.getDate("dateArrival"), rs.getString("tempsDepart"), rs.getString("tempsArrival"), rs.getString("destination"),rs.getInt("idAirport"),rs.getInt("idAirplane")));
+                    list.add(new Flight(rs.getInt("idF"),rs.getDate("dateDepart"), rs.getDate("dateArrival"), rs.getString("tempsDepart"), rs.getString("tempsArrival"), rs.getString("destination"),rs.getString("airportname"),rs.getString("airplanename")));
                 }
                 datedepartcol.setCellValueFactory(new PropertyValueFactory<>("dateDepart"));
                 datearrivalcol.setCellValueFactory(new PropertyValueFactory<>("dateArrival"));
@@ -219,28 +259,28 @@ public class FlightController implements Initializable{
             }
         }
     @FXML
-    List<Integer> onidairport () throws SQLException {
+    List<String> onidairport () throws SQLException {
 
-        List<Integer> options = new ArrayList<>();
+        List<String> options = new ArrayList<>();
 
-        String query = "Select idA from airport";
+        String query = "Select name from airport";
         PreparedStatement st = (PreparedStatement) conn.prepareStatement(query);
         ResultSet rs = (ResultSet) st.executeQuery();
         while (rs.next()) {
-            options.add(rs.getInt("idA"));
+            options.add(rs.getString("name"));
         }
         return options;
     }
     @FXML
-    List<Integer> onidairplane () throws SQLException {
+    List<String> onidairplane () throws SQLException {
 
-        List<Integer> options = new ArrayList<>();
+        List<String> options = new ArrayList<>();
 
-        String query = "Select idAirplane from airplane";
+        String query = "Select name from airplane";
         PreparedStatement st = (PreparedStatement) conn.prepareStatement(query);
         ResultSet rs = (ResultSet) st.executeQuery();
         while (rs.next()) {
-            options.add(rs.getInt("idAirplane"));
+            options.add(rs.getString("name"));
         }
         return options;
     }
@@ -255,7 +295,7 @@ public class FlightController implements Initializable{
             list.clear();
             ResultSet rs = null;
             try {
-                rs = conn.createStatement().executeQuery("select * from Flight");
+                rs = conn.createStatement().executeQuery("select idF,dateDepart,dateArrival,tempsDepart,tempsArrival,destination,airport.name as airportname,airplane.name as airplanename from flight,airport,airplane where airport.idA=flight.idAirport and airplane.idAirplane=flight.idAirplane");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -266,7 +306,7 @@ public class FlightController implements Initializable{
                     throw new RuntimeException(e);
                 }
                 try {
-                    list.add(new Flight(rs.getInt("idF"),rs.getDate("dateDepart"), rs.getDate("dateArrival"), rs.getString("tempsDepart"),rs.getString("tempsArrival"), rs.getString("destination"),rs.getInt("idAirport"),rs.getInt("idAirplane")));
+                    list.add(new Flight(rs.getInt("idF"),rs.getDate("dateDepart"), rs.getDate("dateArrival"), rs.getString("tempsDepart"),rs.getString("tempsArrival"), rs.getString("destination"),rs.getString("airportname"),rs.getString("airplanename")));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }

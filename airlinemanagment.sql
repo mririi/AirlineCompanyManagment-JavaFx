@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 18 nov. 2022 à 19:50
+-- Généré le : lun. 21 nov. 2022 à 14:49
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -33,15 +33,17 @@ CREATE TABLE IF NOT EXISTS `airplane` (
   `name` varchar(30) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`idAirplane`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `airplane`
 --
 
 INSERT INTO `airplane` (`idAirplane`, `name`, `status`) VALUES
-(1, 'hello', 1),
-(2, 'a', 0);
+(3, 'Airbus A350 XWB', 0),
+(4, 'Antonov An-148/An-158', 0),
+(5, 'Boeing 737', 0),
+(6, 'Boeing 767', 0);
 
 -- --------------------------------------------------------
 
@@ -52,18 +54,22 @@ INSERT INTO `airplane` (`idAirplane`, `name`, `status`) VALUES
 DROP TABLE IF EXISTS `airport`;
 CREATE TABLE IF NOT EXISTS `airport` (
   `idA` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `city` varchar(30) NOT NULL,
   `state` varchar(30) NOT NULL,
   PRIMARY KEY (`idA`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `airport`
 --
 
 INSERT INTO `airport` (`idA`, `name`, `city`, `state`) VALUES
-(1, '111', '111', '11');
+(3, 'Tunis Carthage International Airport', 'Carthage', 'Tunis'),
+(4, 'Enfidha - Hammamet International Airport', 'Hammamet', 'Nabeul'),
+(5, 'Djerba Zarzis International Airport', 'Zarzis', 'Djerba'),
+(6, 'Monastir Habib Bourguiba International Airport', 'Monastir', 'Monastir'),
+(7, 'Sfax Thyna International Airport', 'Sfax', 'Sfax');
 
 -- --------------------------------------------------------
 
@@ -74,6 +80,7 @@ INSERT INTO `airport` (`idA`, `name`, `city`, `state`) VALUES
 DROP TABLE IF EXISTS `client`;
 CREATE TABLE IF NOT EXISTS `client` (
   `idC` int(11) NOT NULL AUTO_INCREMENT,
+  `npassport` varchar(8) NOT NULL,
   `lastname` varchar(30) NOT NULL,
   `firstname` varchar(30) NOT NULL,
   `address` varchar(50) NOT NULL,
@@ -81,16 +88,16 @@ CREATE TABLE IF NOT EXISTS `client` (
   `email` varchar(50) NOT NULL,
   `birthdate` date NOT NULL,
   PRIMARY KEY (`idC`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `client`
 --
 
-INSERT INTO `client` (`idC`, `lastname`, `firstname`, `address`, `tel`, `email`, `birthdate`) VALUES
-(9, 'ddd', 'ddd', 'ddd', 555, 'ddd', '2000-10-10'),
-(10, 'a', 'a', 'a', 21345678, 'a', '2000-12-12'),
-(11, 'aza', 'azza', 'azaz', 111111, '11111', '2022-11-09');
+INSERT INTO `client` (`idC`, `npassport`, `lastname`, `firstname`, `address`, `tel`, `email`, `birthdate`) VALUES
+(13, 'RF524686', 'Ruine', 'Firas', 'Dar Chabenne, Nabeul', 24000000, 'fruine6@gmail.com', '2000-01-24'),
+(14, 'RF524677', 'Yakoubi', 'Hatem', 'Gafsa', 24000000, 'hatem@gmail.com', '1988-11-18'),
+(15, 'RF524677', 'Soua', 'Dhouha', 'Gafsa', 24000000, 'dhouha@gmail.com', '2001-01-19');
 
 -- --------------------------------------------------------
 
@@ -103,14 +110,15 @@ CREATE TABLE IF NOT EXISTS `department` (
   `idDep` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`idDep`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `department`
 --
 
 INSERT INTO `department` (`idDep`, `name`) VALUES
-(6, 'azzaazza');
+(7, 'RH'),
+(8, 'Pilotage');
 
 -- --------------------------------------------------------
 
@@ -131,17 +139,17 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `idDep` int(11) NOT NULL,
   PRIMARY KEY (`idE`),
   KEY `idDep` (`idDep`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `employee`
 --
 
 INSERT INTO `employee` (`idE`, `lastname`, `firstname`, `address`, `tel`, `email`, `birthdate`, `salary`, `idDep`) VALUES
-(4, 'nnnn', 'fdsdf', 'azazaz', 2222, 'wasssda', '2000-10-20', 20, 6),
-(5, '111', '111', '11', 11, '11', '2000-10-10', 11, 6),
-(6, '11', '111', '11', 11, '11', '2000-10-10', 11, 6),
-(7, 'az', 'za', 'za', 1, 'saz', '2022-11-02', 11, 6);
+(10, 'Ahmedo', 'Ahmed', 'Nabeul', 25555333, 'ahmed@gmail.com', '1999-12-02', 2500, 7),
+(11, 'Askem', 'Salim', 'Nabeul', 25555333, 'Salim@gmail.com', '1996-11-07', 1500, 7),
+(12, 'Hjaiji', 'Lina', 'Nabeul', 25555333, 'Lina@gmail.com', '2000-11-16', 4500, 8),
+(13, 'Mriri', 'Wassim', 'Nabeul', 25555333, 'Lina@gmail.com', '2000-04-28', 4500, 8);
 
 -- --------------------------------------------------------
 
@@ -162,16 +170,16 @@ CREATE TABLE IF NOT EXISTS `flight` (
   PRIMARY KEY (`idF`),
   KEY `idAirport` (`idAirport`,`idAirplane`),
   KEY `fk7` (`idAirplane`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `flight`
 --
 
 INSERT INTO `flight` (`idF`, `datedepart`, `datearrival`, `tempsdepart`, `tempsarrival`, `destination`, `idAirport`, `idAirplane`) VALUES
-(1, '2000-10-11', '2000-10-11', '', '', 'sm', 1, 1),
-(2, '2022-11-16', '2022-11-16', '', '', 'fra', 1, 1),
-(3, '2022-11-23', '2022-11-23', '', '', 'az', 1, 1);
+(11, '2022-12-10', '2022-12-11', '23:30', '01:30', 'Paris', 3, 3),
+(12, '2022-12-10', '2022-12-11', '23:30', '01:00', 'Jerba', 4, 4),
+(13, '2022-12-10', '2022-12-11', '10:30', '11:00', 'Hammamet', 5, 4);
 
 -- --------------------------------------------------------
 
@@ -188,14 +196,16 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   PRIMARY KEY (`idT`),
   KEY `idC` (`idC`,`idF`),
   KEY `fk2` (`idF`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `ticket`
 --
 
 INSERT INTO `ticket` (`idT`, `price`, `idC`, `idF`) VALUES
-(11, 22222, 9, 1);
+(14, 600, 13, 11),
+(15, 90, 15, 12),
+(16, 90, 15, 13);
 
 -- --------------------------------------------------------
 
